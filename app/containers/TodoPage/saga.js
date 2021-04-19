@@ -36,7 +36,7 @@ export default function* TodoData() {
  */
 export function* createTask() {
   const todoList = yield select(makeSelectTodoPage());
-  console.log('run saga')
+  console.log('run saga createTask')
   try {
     yield call(services.addList, todoList);
     yield call(loadDataTask);
@@ -56,6 +56,7 @@ export function* loadDataTask() {
 
 export function* deleteTaskById() {
   const idTask = yield select(makeSelectGetTaskById());
+  console.log('saga delete')
   try {
     yield call(services.deleteList, idTask);
     yield call(loadDataTask);
@@ -68,6 +69,7 @@ export function* deleteTaskById() {
 export function* updateTaskById() {
   const idTaskEdit = yield select(makeSelectTaskIdEdit());
   const taskDes = yield select(makeSelectTaskEdit());
+  // console.log('run saga');
   try {
     yield call(services.updateList, idTaskEdit, taskDes);
     yield call(loadDataTask);

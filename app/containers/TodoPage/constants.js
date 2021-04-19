@@ -19,8 +19,6 @@ export const LOAD_DATA = 'boilerplate/Todo/LOAD_DATA';
 
 export const LOADING_TASK = 'boilerplate/Todo/LOADING_TASK';
 
-export const DELETE_TASK_BY_ID = 'boilerplate/Todo/DELETE_TASK_BY_ID';
-
 export const DELETE_TASK = 'boilerplate/Todo/DELETE_TASK';
 
 export const UPDATE_TASK_BY_ID = 'boilerplate/Todo/UPDATE_TASK_BY_ID';

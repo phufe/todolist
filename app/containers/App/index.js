@@ -15,6 +15,7 @@ import HomePage from 'containers/HomePage/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import TodoPage from 'containers/TodoPage/Loadable';
+import TodoPage2 from 'containers/TodoPage2/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 
@@ -43,6 +44,7 @@ export default function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/features" component={FeaturePage} />
         <Route path="/todo" component={TodoPage} />
+        <Route path="/todo2" component={TodoPage2} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />

@@ -20,4 +20,8 @@ export default defineMessages({
     id: `${scope}.todo`,
     defaultMessage: 'TodoList',
   },
+  todo2: {
+    id: `${scope}.todo2`,
+    defaultMessage: 'TodoList 2',
+  },
 });

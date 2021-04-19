@@ -24,6 +24,9 @@ function Header() {
         <HeaderLink to="/todo">
           <FormattedMessage {...messages.todo} />
         </HeaderLink>
+        <HeaderLink to="/todo2">
+          <FormattedMessage {...messages.todo2} />
+        </HeaderLink>
       </NavBar>
     </div>
   );

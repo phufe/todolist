@@ -15,7 +15,6 @@ import {
   LOADING_TASK,
   LOAD_DATA_ERROR,
   DELETE_TASK,
-  DELETE_TASK_BY_ID,
   UPDATE_TASK_BY_ID,
   UPDATE_TASK,
 } from './constants';
@@ -47,7 +46,7 @@ const TodoPageReducer = (state = initialState, action) =>
       case CREATE_TASK:
         draft.loading = true;
         draft.error = false;
-        console.log('run reducer')
+        console.log('run reducer createTask', state)
         break;
       case LOADING_TASK:
         draft.loading = true;
@@ -60,10 +59,6 @@ const TodoPageReducer = (state = initialState, action) =>
       case LOAD_DATA_ERROR:
         draft.error = action.payload;
         draft.loading = false;
-        break;
-      case DELETE_TASK_BY_ID:
-        draft.loading = false;
-        draft.idSelected = action.payload;
         break;
       case DELETE_TASK:
         draft.loading = true;
