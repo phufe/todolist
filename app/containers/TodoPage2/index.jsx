@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import ListTodo2 from '../../components/ListTodo2';
+import services from '../TodoPage/services';
 
 // MATERIAL UI
 import Container from '@material-ui/core/Container';
@@ -57,7 +58,6 @@ const axiosConfig = {
 export default function TodoPage2() {
   const classes = useStyles();
   const [tasks, setTasks] = useState([]);
-  const [addTask, setAddTask] = useState('');
   const [editMode, setEditMode] = useState({ isEdit: false, taskId: '' });
   const [taskInput, setTaskInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -69,8 +69,13 @@ export default function TodoPage2() {
   async function fetchTasks() {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${URL}/task`, axiosConfig);
-      setTasks(data.data);
+      const data = services
+        .getList()
+        .then(res => {
+          const { data } = res.data;
+          setTasks(data);
+        })
+        .catch(err => console.log('err', err));
     } catch (err) {
       console.error('Error: ', err.message);
     } finally {
@@ -78,13 +83,19 @@ export default function TodoPage2() {
     }
   }
 
-  async function handleCreateTask(e) {
+  async function handleCreateTask(e,) {
     e.preventDefault();
     e.target.reset();
     try {
       setLoading(true);
-      await axios.post(`${URL}/task`, {description: taskInput}, axiosConfig);
-      await fetchTasks();
+      services
+        .addList(taskInput)
+        .then(res => {
+          fetchTasks();
+        })
+        .catch(err => {
+          console.log('err', err);
+        });
     } catch (err) {
       console.error('Error: ', err.message);
     } finally {
@@ -92,16 +103,18 @@ export default function TodoPage2() {
     }
   }
 
-  async function handleEditTask(e, taskId) {
+  function handleEditTask(e, taskId) {
     try {
       setLoading(true);
-      await axios.put(
-        `${URL}/task/${taskId}`,
-        { description: taskInput },
-        axiosConfig,
-      );
-      setEditMode({ isEdit: false, taskId: '' });
-      await fetchTasks();
+      services
+        .updateList(taskId, taskInput)
+        .then(res => {
+          fetchTasks();
+          setEditMode({ isEdit: false, taskId: '' });
+        })
+        .catch(err => {
+          console.log('err', err);
+        });
     } catch (err) {
       console.error('Error: ', err.message);
     } finally {
@@ -109,7 +122,7 @@ export default function TodoPage2() {
     }
   }
 
-  async function handleDeleteTask(e, taskId, taskName) {
+  async function handleDeleteTask(e, idTask, taskName) {
     e.preventDefault();
     const isConfirmed = window.confirm(
       `Are you sure to delete "${taskName}" ?`,
@@ -117,8 +130,14 @@ export default function TodoPage2() {
     if (isConfirmed) {
       try {
         setLoading(true);
-        await axios.delete(`${URL}/task/${taskId}`, axiosConfig);
-        await fetchTasks();
+        services
+          .deleteList(idTask)
+          .then(res => {
+            fetchTasks();
+          })
+          .catch(err => {
+            console.log('err', err);
+          });
       } catch (err) {
         console.error('Error:', err.message);
       } finally {
@@ -160,7 +179,7 @@ export default function TodoPage2() {
                     label="Add Task"
                     variant="outlined"
                     size="small"
-                    onChange={(e) => setTaskInput(e.target.value)}
+                    onChange={e => setTaskInput(e.target.value)}
                   />
                 </Grid>
               </form>
