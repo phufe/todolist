@@ -46,14 +46,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const URL = 'https://api-nodejs-todolist.herokuapp.com';
-const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc2ZTQzN2E2YTY3MzAwMTc0NzFjNmIiLCJpYXQiOjE2MDE2MjcxOTJ9.x6hiHZB6izKaoLB5RRKKeqX-J5TlqtFJMDu2NVtl5ak';
-const axiosConfig = {
-  headers: {
-    Authorization: `${TOKEN}`,
-  },
-};
+// const URL = 'https://api-nodejs-todolist.herokuapp.com';
+// const TOKEN =
+//   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc2ZTQzN2E2YTY3MzAwMTc0NzFjNmIiLCJpYXQiOjE2MDE2MjcxOTJ9.x6hiHZB6izKaoLB5RRKKeqX-J5TlqtFJMDu2NVtl5ak';
+// const axiosConfig = {
+//   headers: {
+//     Authorization: `${TOKEN}`,
+//   },
+// };
 
 export default function TodoPage2() {
   const classes = useStyles();
@@ -68,14 +68,17 @@ export default function TodoPage2() {
 
   async function fetchTasks() {
     try {
+      // setLoading(true);
+      // const data = services
+      //   .getList()
+      //   .then(res => {      
+      //     const { data } = res.data;
+      //     setTasks(data);
+      //   })
+      //   .catch(err => console.log('err', err));
       setLoading(true);
-      const data = services
-        .getList()
-        .then(res => {
-          const { data } = res.data;
-          setTasks(data);
-        })
-        .catch(err => console.log('err', err));
+      const { data } = await services.getList()
+      setTasks(data.data);
     } catch (err) {
       console.error('Error: ', err.message);
     } finally {
@@ -83,19 +86,22 @@ export default function TodoPage2() {
     }
   }
 
-  async function handleCreateTask(e,) {
+  async function handleCreateTask(e) {
     e.preventDefault();
     e.target.reset();
     try {
+      // setLoading(true);
+      // services
+      //   .addList(taskInput)
+      //   .then(res => {
+      //     fetchTasks();
+      //   })
+      //   .catch(err => {
+      //     console.log('err', err);
+      //   });
       setLoading(true);
-      services
-        .addList(taskInput)
-        .then(res => {
-          fetchTasks();
-        })
-        .catch(err => {
-          console.log('err', err);
-        });
+      await services.addList(taskInput)
+      await fetchTasks();
     } catch (err) {
       console.error('Error: ', err.message);
     } finally {
@@ -103,18 +109,22 @@ export default function TodoPage2() {
     }
   }
 
-  function handleEditTask(e, taskId) {
+  async function handleEditTask(e, idTask) {
     try {
+      // setLoading(true);
+      // services
+      //   .updateList(idTask, taskInput)
+      //   .then(res => {
+      //     fetchTasks();
+      //     setEditMode({ isEdit: false, idTask: '' });
+      //   })
+      //   .catch(err => {
+      //     console.log('err', err);
+      //   });
       setLoading(true);
-      services
-        .updateList(taskId, taskInput)
-        .then(res => {
-          fetchTasks();
-          setEditMode({ isEdit: false, taskId: '' });
-        })
-        .catch(err => {
-          console.log('err', err);
-        });
+      await services.updateList(idTask, taskInput)
+      setEditMode({ isEdit: false, taskId: '' });
+      await fetchTasks();
     } catch (err) {
       console.error('Error: ', err.message);
     } finally {
@@ -129,15 +139,18 @@ export default function TodoPage2() {
     );
     if (isConfirmed) {
       try {
+        // setLoading(true);
+        // services
+        //   .deleteList(idTask)
+        //   .then(res => {
+        //     fetchTasks();
+        //   })
+        //   .catch(err => {
+        //     console.log('err', err);
+        //   });
         setLoading(true);
-        services
-          .deleteList(idTask)
-          .then(res => {
-            fetchTasks();
-          })
-          .catch(err => {
-            console.log('err', err);
-          });
+        await services.deleteList(idTask)
+        await fetchTasks();
       } catch (err) {
         console.error('Error:', err.message);
       } finally {
